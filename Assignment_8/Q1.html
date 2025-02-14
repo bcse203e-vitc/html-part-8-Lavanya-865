@@ -1,1 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table Creator</title>
+    <style>
+        table,button {
+            margin: 10px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Dynamic Table Creator</h2>
+    <label>Rows: <input type="number" id="r" min="1"></label>
+    <label>Columns: <input type="number" id="c" min="1"></label>
+    <button onclick="genTable()">Generate Table</button>
+    <div id="tblContainer"></div>
+    
+    <script>
+        function genTable() {
+            let r = parseInt(document.getElementById('r').value);
+            let c = parseInt(document.getElementById('c').value);
+            let container = document.getElementById('tblContainer');
 
+            if (r <= 0 || c <= 0 || isNaN(r) || isNaN(c)) {
+                alert('Enter valid row and column numbers.');
+                return;
+            }
+
+            container.innerHTML = ''; 
+            let tbl = document.createElement('table');
+
+            let hdrRow = tbl.insertRow();
+            for (let j = 0; j < c; j++) {
+                let hdrCell = document.createElement('th');
+                hdrCell.innerText = `Col ${j + 1}`;
+                hdrRow.appendChild(hdrCell);
+            }
+            let hdrCell = document.createElement('th');
+            hdrCell.innerText = 'Actions';
+            hdrRow.appendChild(hdrCell);
+
+            for (let i = 0; i < r; i++) {
+                let row = tbl.insertRow();
+                for (let j = 0; j < c; j++) {
+                    let cell = row.insertCell();
+                    cell.innerText = `R${i + 1}C${j + 1}`;
+                }
+                let delBtn = document.createElement('button');
+                delBtn.innerText = 'Delete Row';
+                delBtn.onclick = () => row.remove();
+                let delCell = row.insertCell();
+                delCell.appendChild(delBtn);
+            }
+
+            let colInput = document.createElement('input');
+            colInput.type = 'number';
+            colInput.id = 'colDel';
+            colInput.min = '1';
+            colInput.placeholder = 'Enter column number';
+
+            let colBtn = document.createElement('button');
+            colBtn.innerText = 'Delete Column';
+            colBtn.onclick = () => delCol(tbl);
+
+            container.appendChild(colInput);
+            container.appendChild(colBtn);
+            container.appendChild(tbl);
+        }
+
+        function delCol(tbl) {
+            let colIdx = parseInt(document.getElementById('colDel').value) - 1;
+            let totalCols = tbl.rows[0].cells.length - 1; 
+
+            if (isNaN(colIdx) || colIdx < 0 || colIdx >= totalCols) {
+                alert("Invalid column number!");
+                return;
+            }
+
+            for (let i = 0; i < tbl.rows.length; i++) {
+                tbl.rows[i].deleteCell(colIdx);
+            }
+        }
+    </script>
+</body>
+</html>
