@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter</title>
+</head>
+<body>
+
+    <textarea id="txt"></textarea>
+    <p>Words: <span id="count">0</span></p>
+    <p>Repeated: <span id="repeat"></span></p>
+
+    <script>
+        let txt = document.getElementById('txt'), count = document.getElementById('count'), repeat = document.getElementById('repeat');
+
+        txt.oninput = () => {
+            let words = txt.value.toLowerCase().match(/\b\w+\b/g) || [];
+            count.textContent = words.length;
+
+            let freq = {};
+            words.forEach(w => freq[w] = (freq[w] || 0) + 1);
+            repeat.textContent = Object.keys(freq).filter(w => freq[w] > 1).join(', ') || 'None';
+        };
+    </script>
+
+</body>
+</html>
