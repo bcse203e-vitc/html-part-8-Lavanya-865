@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Carousel</title>
+    <style>
+        .carousel { position: relative; max-width: 500px; margin: auto; overflow: hidden; }
+        .carousel-inner { display: flex; transition: transform 0.5s ease-in-out; }
+        .carousel-inner img { width: 100%; height: auto; display: block; }
+        .btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); color: white; border: none; padding: 10px; cursor: pointer; font-size: 18px; }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+        .carousel:hover .next, .carousel:hover .prev { background: rgba(0, 0, 0, 0.8); }
+    </style>
+</head>
+<body>
+
+    <div class="carousel" id="carousel">
+        <div class="carousel-inner">
+            <img src="https://via.placeholder.com/500x300?text=Image+1" alt="Image 1">
+            <img src="https://via.placeholder.com/500x300?text=Image+2" alt="Image 2">
+            <img src="https://via.placeholder.com/500x300?text=Image+3" alt="Image 3">
+            <img src="https://via.placeholder.com/500x300?text=Image+4" alt="Image 4">
+        </div>
+        <button class="btn prev" onclick="prevImg()">Prev</button>
+        <button class="btn next" onclick="nextImg()">Next</button>
+    </div>
+
+    <script>
+        let idx = 0;
+        const imgs = document.querySelectorAll('.carousel-inner img');
+        const inner = document.querySelector('.carousel-inner');
+        let autoSlide;
+
+        function nextImg() {
+            idx = (idx + 1) % imgs.length;
+            updateCarousel();
+        }
+
+        function prevImg() {
+            idx = (idx - 1 + imgs.length) % imgs.length;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            inner.style.transform = `translateX(${-idx * 100}%)`;
+        }
+
+        function startAutoSlide() {
+            autoSlide = setInterval(nextImg, 3000);
+        }
+
+        document.getElementById('carousel').addEventListener('mouseenter', () => clearInterval(autoSlide));
+        document.getElementById('carousel').addEventListener('mouseleave', startAutoSlide);
+
+        startAutoSlide();
+    </script>
+
+</body>
+</html>
