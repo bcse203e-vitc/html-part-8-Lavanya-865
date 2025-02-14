@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; margin-top: 20px; }
+        input, button { font-size: 16px; padding: 5px; margin: 5px; }
+        #timer { font-size: 30px; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <input type="number" id="time" placeholder="Enter seconds">
+    <button onclick="startTimer()">Start</button>
+    <p id="timer"></p>
+    
+    <audio id="alarm" src="beeps.mp3"></audio>
+
+    <script>
+        let int;
+        function startTimer() {
+            clearInterval(int);
+            let t = parseInt(document.getElementById('time').value);
+            if (isNaN(t) || t <= 0) return alert('Enter valid time');
+            let display = document.getElementById('timer');
+            let sound = document.getElementById('alarm');
+
+            int = setInterval(() => {
+                display.textContent = t > 0 ? t-- : (clearInterval(int), sound.play(), 'Time\s up!');
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
