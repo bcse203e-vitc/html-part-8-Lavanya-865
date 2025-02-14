@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+        body { text-align: center; }
+        button { margin: 5px; padding: 8px 12px; cursor: pointer; }
+        #choice, #result { font-size: 18px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h3>Rock, Paper, Scissors</h3>
+    <button onclick="play('Rock')">Rock</button>
+    <button onclick="play('Paper')">Paper</button>
+    <button onclick="play('Scissors')">Scissors</button>
+    
+    <p id="choice"></p>
+    <p id="result"></p>
+
+    <script>
+        function play(user) {
+            let choices = ['Rock', 'Paper', 'Scissors'];
+            let comp = choices[Math.floor(Math.random() * 3)];
+            let result = user === comp ? 'It\'s a Draw!' :
+                (user === 'Rock' && comp === 'Scissors') || 
+                (user === 'Paper' && comp === 'Rock') || 
+                (user === 'Scissors' && comp === 'Paper') ? 'You Win! 🎉' : 'You Lose! 😢';
+            
+            document.getElementById('choice').textContent = `You: ${user} | Computer: ${comp}`;
+            document.getElementById('result').textContent = result;
+        }
+    </script>
+
+</body>
+</html>
